@@ -3,7 +3,7 @@ from clip_interrogator import Config, Interrogator
 import requests
 import os
 
-ci = Interrogator(Config(clip_model_name="ViT-L-14/openai"))
+ci = Interrogator(Config(clip_model_name="ViT-L-14/openai", quiet=True))
 
 for file in os.listdir("./images"):
   image = Image.open("./images/" + file, mode='r')
