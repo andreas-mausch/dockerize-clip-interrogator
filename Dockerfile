@@ -14,4 +14,4 @@ RUN python ./download_model.py
 
 COPY main.py .
 
-CMD python ./main.py
+ENTRYPOINT ["python", "./main.py"]

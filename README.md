@@ -5,7 +5,7 @@ It optionally allows the user to save the description to the exif metadata of th
 
 ```bash
 docker build -t clip-interrogator .
-docker run -it --rm --network none -v $PWD/images:/home/python/images:ro clip-interrogator
+docker run -it --rm --network none -v $PWD/images:/home/python/images:ro clip-interrogator "./images/**/*.*"
 ```
 
 # Images
