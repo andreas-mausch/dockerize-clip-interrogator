@@ -24,6 +24,4 @@ oscar-nord-_hg9QTNFFWo-unsplash.jpg: a crowded beach filled with lots of people,
 
 # TODOs
 
-- Use virtualenv
-- Use click
 - Save metadata as a new image, or optionally replace the original one
