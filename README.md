@@ -1,5 +1,5 @@
-A project to dockerize [clip-interrogator](https://github.com/pharmapsychotic/clip-interrogator), a tool for captioning images.
-It is intended for offline usage, pre-bundled with the clip model.
+A CLI tool for [clip-interrogator](https://github.com/pharmapsychotic/clip-interrogator), a tool for captioning images.
+Dockerized and intended for offline usage, pre-bundled with the clip model.
 
 It optionally allows the user to save the description to the exif metadata of the image.
 
