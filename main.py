@@ -32,7 +32,7 @@ def clip(files, save_to_file):
 
             image.modify_xmp({ key: tags })
 
-            with open('./images/result.jpg', 'xb') as result:
+            with path.with_stem(path.stem + '.clip').open(mode='xb') as result:
               result.write(image.get_bytes())
 
 if __name__ == '__main__':
