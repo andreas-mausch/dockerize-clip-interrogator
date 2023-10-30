@@ -1,5 +1,6 @@
 click==8.1.7
 clip-interrogator==0.5.4
+pathlib==1.0.1
 pyexiv2==2.8.3
 # See here: https://github.com/pharmapsychotic/clip-interrogator/issues/82
 transformers==4.26.1

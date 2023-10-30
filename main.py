@@ -1,6 +1,6 @@
 from PIL import Image
 from clip_interrogator import Config, Interrogator
-from glob import glob
+from pathlib import Path
 import click
 import pyexiv2
 import requests
@@ -20,13 +20,13 @@ def clip(files, save_to_file):
   ci = Interrogator(Config(clip_model_name="ViT-L-14/openai", quiet=True))
 
   for argument in files:
-    for filename in glob(argument, recursive=True):
-      image = Image.open(filename, mode='r')
+    for path in Path.cwd().glob(argument):
+      image = Image.open(path)
       tags = ci.interrogate_fast(image)
-      print("%s: %s" % (filename, tags))
+      print("%s: %s" % (path, tags))
 
       if save_to_file == 'new':
-        with open(filename, 'rb') as file:
+        with path.open(mode='rb') as file:
           with pyexiv2.ImageData(file.read()) as image:
             key = 'Xmp.xmp.ClipInterrogatorDescription'
 
