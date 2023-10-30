@@ -10,8 +10,9 @@ import sys
 @click.option('--save-to-file',
               type=click.Choice(['none', 'new'], case_sensitive=False),
               default='none')
+@click.option('--metadata-key', default='Xmp.xmp.ClipInterrogatorDescription')
 @click.argument('files', nargs=-1)
-def clip(files, save_to_file):
+def clip(files, save_to_file, metadata_key):
   """Generate descriptions for the given images by using clip-interrogator.
   The CLIP Interrogator is a prompt engineering tool that combines OpenAI's CLIP and Salesforce's BLIP to optimize text prompts to match a given image.
 
@@ -28,9 +29,7 @@ def clip(files, save_to_file):
       if save_to_file == 'new':
         with path.open(mode='rb') as file:
           with pyexiv2.ImageData(file.read()) as image:
-            key = 'Xmp.xmp.ClipInterrogatorDescription'
-
-            image.modify_xmp({ key: tags })
+            image.modify_xmp({ metadata_key: tags })
 
             with path.with_stem(path.stem + '.clip').open(mode='xb') as result:
               result.write(image.get_bytes())
