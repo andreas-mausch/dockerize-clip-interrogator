@@ -30,7 +30,7 @@ def clip(files, save_to_file, metadata_key):
     for path in Path.cwd().glob(argument):
       with Image.open(path) as image:
         description = ci.interrogate_fast(image)
-      print("%s: %s" % (path, description))
+      print("%s: %s" % (path.relative_to(Path.cwd()), description))
 
       if save_to_file == 'existing' or save_to_file == 'new':
         image_bytes = modify_metadata(path, description, metadata_key)
