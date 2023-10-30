@@ -21,3 +21,15 @@ daniel-j-schwarz-idnpWAlqVgE-unsplash.jpg: a row of buildings next to a body of 
 daniel-sessler-MU6Z-zj1n6c-unsplash.jpg: a group of people that are standing in the street, cuban women in havana, cuban revolution, cuban setting, cuba, people dancing in background, anthropological photography, 4k press image, travel ad, people dancing, today\'s featured photograph 4k, archival pigment print, laura letinsky and steve mccurry, photo taken with ektachrome
 oscar-nord-_hg9QTNFFWo-unsplash.jpg: a crowded beach filled with lots of people, martin parr, italian beach scene, crowded beach, beautiful italian beach scene, happy italian beach scene, beach scene, beach aesthetic, in summer, beach setting, an island made of caviar, photo taken with ektachrome, children playing at the beach, moody : : wes anderson, people in beach, by Hiroshi Nagai
 ```
+
+# Save to image metadata
+
+If you like, you can save the description to the metadata of the image.
+Example calls:
+
+```bash
+# this will save to a new file 'daniel-j-schwarz-idnpWAlqVgE-unsplash.clip.jpg':
+docker run -it --rm --network none -v $PWD/images:/home/python/images clip-interrogator --save-to-file=new "./images/daniel-j-schwarz-idnpWAlqVgE-unsplash.jpg"
+# or overwrite the original file:
+docker run -it --rm --network none -v $PWD/images:/home/python/images clip-interrogator --save-to-file=existing "./images/daniel-j-schwarz-idnpWAlqVgE-unsplash.jpg"
+```
