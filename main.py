@@ -12,19 +12,21 @@ def modify_metadata(path, description, metadata_key):
       image.modify_xmp({ metadata_key: description })
       return image.get_bytes()
 
-@click.command()
+@click.command(context_settings={'show_default': True})
 @click.option('--save-to-file',
               type=click.Choice(['none', 'existing', 'new'], case_sensitive=False),
-              default='none')
-@click.option('--metadata-key', default='Xmp.xmp.ClipInterrogatorDescription')
+              default='none',
+              help='Save the description to the metadata of the image or just print it without saving')
+@click.option('--metadata-key', default='Xmp.xmp.ClipInterrogatorDescription', help='The key used to save the description to the metadata')
+@click.option('--model', default='ViT-L-14/openai', help='The name of the CLIP model used to generate descriptions')
 @click.argument('files', nargs=-1)
-def clip(files, save_to_file, metadata_key):
+def clip(files, save_to_file, metadata_key, model):
   """Generate descriptions for the given images by using clip-interrogator.
   The CLIP Interrogator is a prompt engineering tool that combines OpenAI's CLIP and Salesforce's BLIP to optimize text prompts to match a given image.
 
   FILES are the filenames of the images to generate the descriptions for. They can include wildcards / glob patterns.
   """
-  ci = Interrogator(Config(clip_model_name="ViT-L-14/openai", quiet=True))
+  ci = Interrogator(Config(clip_model_name=model, quiet=True))
 
   for argument in files:
     for path in Path.cwd().glob(argument):
