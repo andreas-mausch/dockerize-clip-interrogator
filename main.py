@@ -14,7 +14,7 @@ def modify_metadata(path, description, metadata_key):
 
 @click.command()
 @click.option('--save-to-file',
-              type=click.Choice(['none', 'new'], case_sensitive=False),
+              type=click.Choice(['none', 'existing', 'new'], case_sensitive=False),
               default='none')
 @click.option('--metadata-key', default='Xmp.xmp.ClipInterrogatorDescription')
 @click.argument('files', nargs=-1)
@@ -28,14 +28,16 @@ def clip(files, save_to_file, metadata_key):
 
   for argument in files:
     for path in Path.cwd().glob(argument):
-      image = Image.open(path)
-      description = ci.interrogate_fast(image)
+      with Image.open(path) as image:
+        description = ci.interrogate_fast(image)
       print("%s: %s" % (path, description))
 
-      if save_to_file == 'new':
+      if save_to_file == 'existing' or save_to_file == 'new':
         image_bytes = modify_metadata(path, description, metadata_key)
-        with path.with_stem(path.stem + '.clip').open(mode='xb') as result:
-          result.write(image_bytes)
+        target = path if save_to_file == 'existing' else path.with_stem(path.stem + '.clip')
+        mode = 'wb' if save_to_file == 'existing' else 'xb'
+        with target.open(mode) as output_file:
+          output_file.write(image_bytes)
 
 if __name__ == '__main__':
   clip()
