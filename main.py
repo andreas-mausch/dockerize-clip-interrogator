@@ -1,6 +1,7 @@
 from PIL import Image
 from clip_interrogator import Config, Interrogator
 from pathlib import Path
+from transformers import BlipProcessor, BlipForConditionalGeneration
 import click
 import pyexiv2
 import requests
@@ -38,12 +39,18 @@ def clip(files, save_to_file, metadata_type, metadata_key, model):
 
   FILES are the filenames of the images to generate the descriptions for. They can include wildcards / glob patterns.
   """
-  ci = Interrogator(Config(clip_model_name=model, quiet=True))
+  # ci = Interrogator(Config(clip_model_name=model, quiet=True))
+  processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large", local_files_only=True)
+  model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large", local_files_only=True)
+  prompt = "a photography of"
 
   for argument in files:
     for path in Path.cwd().glob(argument):
       with Image.open(path) as image:
-        description = ci.interrogate_fast(image)
+        inputs = processor(image, prompt, return_tensors="pt")
+        generated_ids = model.generate(**inputs)
+        description = processor.batch_decode(generated_ids, skip_special_tokens=True)
+        # description = ci.interrogate_fast(image)
       print("%s: %s" % (path.relative_to(Path.cwd()), description))
 
       if save_to_file == 'existing' or save_to_file == 'new':
